@@ -1,0 +1,16 @@
+{
+  "name": "yii2-rest",
+  "version": "1.0.0",
+  "homepage": "https://github.com/XeuRun/yii2-rest",
+  "authors": [
+    "Alexey Stepankov <xeurun@yahoo.com>"
+  ],
+  "description": "Yii2 rest skeleton",
+  "main": "app",
+  "keywords": [
+    ""
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {}
+}

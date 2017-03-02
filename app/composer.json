@@ -1,0 +1,59 @@
+{
+    "name": "XeuRun/yii2-rest",
+    "description": "Yii2 rest skeleton",
+    "keywords": ["yii2", "rest", "skeleton"],
+    "homepage": "https://github.com/XeuRun/yii2-rest",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alex Stepankov",
+            "email": "xeurun@yahoo.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/XeuRun/yii2-rest/issues",
+        "source": "https://github.com/XeuRun/yii2-rest",
+        "forum": "https://github.com/XeuRun/yii2-rest/issues",
+        "wiki": "https://github.com/XeuRun/yii2-rest/wiki",
+        "irc": "https://github.com/XeuRun/yii2-rest"
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.0.0",
+        "yiisoft/yii2": "2.0.*",
+        "yiisoft/yii2-bootstrap": "2.0.*",
+        "cboden/ratchet": "0.3.*"
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "2.0.6",
+        "yiisoft/yii2-gii": "2.0.5",
+        "yiisoft/yii2-faker": "2.0.3",
+        "symfony/var-dumper": "3.1.4"
+    },
+    "config": {
+        "process-timeout": 1800
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "yii\\composer\\Installer::postCreateProject"
+        ]
+    },
+    "extra": {
+        "yii\\composer\\Installer::postCreateProject": {
+            "setPermission": [
+                {
+                    "backend/runtime": "0777",
+                    "frontend/runtime": "0777",
+                    "frontend/web/assets": "0777",
+                    "yii": "0755"
+                }
+            ]
+        },
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "frontend/web/assets/vendor"
+        }
+    }
+}

@@ -1,0 +1,56 @@
+version: '2'
+# SERVICES
+services:
+# MYSQL
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./app_data:/var/lib/mysql
+    ports:
+      - 3366:3306
+    environment:
+       MYSQL_ROOT_PASSWORD: 1234
+       MYSQL_DATABASE: jh
+       MYSQL_USER: jh
+       MYSQL_PASSWORD: jh
+# Composer
+  composer:
+    depends_on:
+      - php
+    image: composer:latest
+    volumes_from:
+      - php:rw
+    links:
+      - php
+# PHP
+  php:
+    depends_on:
+      - mysql
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8080"
+    volumes:
+      - ./app:/var/www/app:rw
+      # php configs
+      - ./docker/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    links:
+      - mysql
+# NGINX
+  nginx:
+    depends_on:
+      - mysql
+      - php
+    image: nginx:latest
+    ports:
+      - "8082:80"
+    volumes_from:
+      - php:rw
+    volumes:
+      - ./app_logs:/var/log/nginx/app
+      # nginx configs
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    links:
+      - php

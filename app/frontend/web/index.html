@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Joking Hazard</title>
+    <script src="assets/vendor/angular/angular.js"></script>
+    <script src="assets/app.js"></script>
+    <script type="text/javascript" src="assets/app/Controllers/GameController.js"></script>
+    <script type="text/javascript" src="assets/app/Controllers/RoomController.js"></script>
+</head>
+<body ng-app="app">
+    <div ng-controller="GameController as gc" ng-init="gc.join()">
+        <div style="text-align: center">
+            <label ng-show="false" for="room_id">Room number: </label>
+            <input ng-show="false" id="room_id" ng-model="gc.gameId" type="number" />
+            <button ng-show="false" ng-click="gc.enter()">enter to game</button>
+            <button ng-click="gc.new()" ng-show="gc.gameStatus == null">create game
+            <button ng-click="gc.call()" ng-show="gc.gameStatus == gc.gameStatuses.PREPARE">call user</button>
+            <button ng-click="gc.start()" ng-show="gc.gameStatus == gc.gameStatuses.PREPARE">start</button>
+        </div>
+        <div ng-show="gc.gameStatus == gc.gameStatuses.PLAY">
+            Статус: [[ gc.status ]] <br>
+            Игроки:
+            <ul
+                    style="
+                    list-style: none;
+                    padding: 0;
+                    text-align: center;
+                "
+            >
+                <li
+                        ng-repeat="(id, points) in gc.players track by $index"
+                >
+                    Игрок #[[ $index ]] [[ gc.leaderId == id ? '(лидер)' : '' ]] [[ gc.userId == id ? '(вы)' : '' ]] - [[ points ]]
+                </li>
+            </ul>
+            История:
+            <ul
+                    style="
+                    list-style: none;
+                    padding: 0;
+                    text-align: center;
+                "
+            >
+                <li
+                        ng-repeat="card in gc.story | orderObjectBy:'position':false"
+                        ng-click="gc.select(card.id)"
+                        style="
+                        width: 175px;
+                        height: 250px;
+                        background: url('[[ card.link ]]');
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        display: inline-flex;
+                    "
+                >
+                </li>
+            </ul>
+            Предложения:
+            <ul
+                    style="
+                    list-style: none;
+                    padding: 0;
+                    text-align: center;
+                "
+            >
+                <li
+                        ng-repeat="card in gc.pending"
+                        ng-click="gc.add(card.id)"
+                        style="
+                        width: 175px;
+                        height: 250px;
+                        background: url('[[ card.link ]]');
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        border: [[ card == gc.selectedCard ? '5px dashed green' : '0px' ]];
+                        display: inline-flex;
+                    "
+                >
+                </li>
+            </ul>
+            <div style="text-align: center;">
+                Мои карты:
+                <button ng-click="gc.show()" ng-hide="gc.leader">предложить</button>
+                <button ng-click="gc.add()" ng-show="gc.leader">добавить</button>
+            </div>
+            <ul
+                style="
+                    list-style: none;
+                    padding: 0;
+                    text-align: center;
+                "
+            >
+                <li
+                    ng-repeat="card in gc.myCards"
+                    ng-click="gc.select(card.id)"
+                    style="
+                        width: 175px;
+                        height: 245px;
+                        background: url('[[ card.link ]]');
+                        background-size: contain;
+                        background-repeat: no-repeat;
+                        border: [[ card == gc.selectedCard ? '5px dashed green' : '0px' ]];
+                        display: inline-flex;
+                    "
+                >
+                </li>
+            </ul>
+            <div
+                    ng-click="gc.get()"
+                    style="
+                width: 250px;
+                height: 200px;
+                background: url('assets/cards/cards.png');
+                background-size: cover;
+                background-repeat: no-repeat;
+                position: fixed;
+                bottom:0px;
+                right:0px;
+                cursor: pointer;
+            "></div>
+        </div>
+    </div>
+</body>
+</html>
